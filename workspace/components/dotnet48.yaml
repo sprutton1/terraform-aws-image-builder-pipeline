@@ -1,0 +1,31 @@
+phases:
+  -
+    name: 'build'
+    steps:
+      -
+        name: StandardPre-ReqS3Download
+        action: S3Download
+        timeoutSeconds: 60
+        onFailure: Abort
+        maxAttempts: 5
+        inputs:
+          -
+            source: 's3://gcs-awsht-aws-dv5-1/ndp48-x86-x64-allos-v2.exe'
+            destination: 'C:\ndp48-x86-x64-allos-v2.exe'
+      - 
+        name: Installdotnet48
+        action: ExecuteBinary
+        onFailure: Continue
+        inputs:
+          path: '{{ build.StandardPre-ReqS3Download.inputs[0].destination }}'
+          arguments:
+            - '/q'
+            - '/norestart'
+      -
+        name: Cleanup
+        action: DeleteFile
+        onFailure: Abort
+        maxAttempts: 3
+        inputs:
+          - path: '{{build.StandardPre-ReqS3Download.inputs[0].destination}}'
+schemaVersion: 1.1

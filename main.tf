@@ -46,17 +46,14 @@ resource "aws_imagebuilder_infrastructure_configuration" "infra_config" {
 
 resource "aws_imagebuilder_distribution_configuration" "dist_config" {
 
-  name = var.dist_name
+  name = var.dist_config_name
 
   distribution {
     ami_distribution_configuration {
       ami_tags = var.ami_tags
+      name     = "${var.dist_ami_name}--{{ imagebuilder:buildDate }}"
 
-      name = var.dist_ami_name
-
-      launch_permission {
-        user_ids = var.dist_aws_accounts
-      }
+      target_account_ids = var.dist_aws_accounts
     }
 
     region = var.dist_region

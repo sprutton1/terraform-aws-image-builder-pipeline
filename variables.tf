@@ -31,7 +31,7 @@ variable "dist_aws_accounts" {
   type        = list(any)
 }
 
-variable "dist_name" {
+variable "dist_config_name" {
   description = "The name of the distribution configuration."
   type        = string
 }
@@ -114,7 +114,7 @@ variable "bucket_prefix" {
 variable "key_pair" {
   description = "A key pair that can be used to remote into the machine."
   type        = string
-  default     = ""
+  default     = " "
 }
 
 variable "terminate_instance_on_failure" {
